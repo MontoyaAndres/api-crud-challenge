@@ -1,0 +1,102 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum ShippingAddressStatus {
+  PRIMARY
+}
+
+enum PaymentType {
+  CASH
+  CREDIT_CARD
+  CHECK
+  ORDER
+}
+
+model Customer {
+  id                Int                            @id @default(autoincrement())
+  name              String
+  phone             String                         @unique
+  email             String                         @unique
+  createdAt         DateTime                       @default(now())
+  updatedAt         DateTime                       @default(now())
+  deletedAt         DateTime?
+  shippingAddresses ShippingAddressesOnCustomers[]
+  orders            Order[]
+}
+
+model ShippingAddressesOnCustomers {
+  customer          Customer              @relation(fields: [customerId], references: [id])
+  customerId        Int
+  shippingAddress   ShippingAddress       @relation(fields: [shippingAddressId], references: [id])
+  shippingAddressId Int
+  status            ShippingAddressStatus
+
+  @@id([customerId, shippingAddressId])
+}
+
+model ShippingAddress {
+  id        Int                            @id @default(autoincrement())
+  street    String
+  city      String
+  state     String
+  country   String
+  zipCode   String?
+  createdAt DateTime                       @default(now())
+  updatedAt DateTime                       @default(now())
+  deletedAt DateTime?
+  customers ShippingAddressesOnCustomers[]
+  orders    ShippingAddressesOnOrders[]
+}
+
+model ShippingAddressesOnOrders {
+  order             Order                 @relation(fields: [orderId], references: [id])
+  orderId           Int
+  shippingAddress   ShippingAddress       @relation(fields: [shippingAddressId], references: [id])
+  shippingAddressId Int
+  status            ShippingAddressStatus
+
+  @@id([orderId, shippingAddressId])
+}
+
+model Order {
+  id                Int                         @id @default(autoincrement())
+  idNumber          Int?                        @unique
+  date              DateTime
+  paymentType       PaymentType
+  total             Int
+  createdAt         DateTime                    @default(now())
+  updatedAt         DateTime                    @default(now())
+  deletedAt         DateTime?
+  customer          Customer                    @relation(fields: [customerId], references: [id])
+  customerId        Int
+  products          ProductsOnOrders[]
+  shippingAddresses ShippingAddressesOnOrders[]
+}
+
+model ProductsOnOrders {
+  order     Order   @relation(fields: [orderId], references: [id])
+  orderId   Int
+  product   Product @relation(fields: [productId], references: [id])
+  productId Int
+  quantity  Int
+
+  @@id([orderId, productId])
+}
+
+model Product {
+  id          Int                @id @default(autoincrement())
+  title       String
+  description String
+  price       Int
+  weight      Int
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @default(now())
+  deletedAt   DateTime?
+  orders      ProductsOnOrders[]
+}

@@ -1,0 +1,34 @@
+{
+  "name": "api-crud-challenge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "dotenv -e .env -- nodemon src/index.js",
+    "clean": "rm -rf node_modules",
+    "generate": "prisma generate --schema src/prisma/schema.prisma",
+    "migrate": "npm run generate && prisma migrate dev --schema src/prisma/schema.prisma",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MontoyaAndres/api-crud-challenge.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MontoyaAndres/api-crud-challenge/issues"
+  },
+  "homepage": "https://github.com/MontoyaAndres/api-crud-challenge#readme",
+  "dependencies": {
+    "@prisma/client": "^4.10.1",
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "dotenv-cli": "^7.0.0",
+    "nodemon": "^2.0.20",
+    "prisma": "^4.10.1"
+  }
+}
