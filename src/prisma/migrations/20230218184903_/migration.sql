@@ -47,7 +47,7 @@ CREATE TABLE "Order" (
     "idNumber" INTEGER,
     "date" TIMESTAMP(3) NOT NULL,
     "paymentType" "PaymentType" NOT NULL,
-    "total" INTEGER NOT NULL,
+    "total" INTEGER,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "deletedAt" TIMESTAMP(3),

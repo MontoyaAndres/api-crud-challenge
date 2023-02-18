@@ -1,7 +1,11 @@
 const express = require('express');
 const cors = require('cors');
 
-const { CustomerController, ProductController } = require('./controllers');
+const {
+  CustomerController,
+  ProductController,
+  OrderController
+} = require('./controllers');
 
 const { PORT } = process.env;
 const corsOptions = {
@@ -23,7 +27,11 @@ router
   .get('/products/:id', ProductController.getProduct)
   .post('/products/create', ProductController.createProduct)
   .put('/products/update', ProductController.updateProduct)
-  .delete('/products/:id', ProductController.deleteProduct);
+  .delete('/products/:id', ProductController.deleteProduct)
+
+  .get('/orders/:id', OrderController.getOrder)
+  .post('/orders/create', OrderController.createOrder)
+  .delete('/orders/:id', OrderController.deleteOrder);
 
 app.use('/', router);
 
