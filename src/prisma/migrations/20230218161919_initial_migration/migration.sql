@@ -94,10 +94,10 @@ CREATE UNIQUE INDEX "Order_idNumber_key" ON "Order"("idNumber");
 CREATE UNIQUE INDEX "Product_idNumber_key" ON "Product"("idNumber");
 
 -- AddForeignKey
-ALTER TABLE "ShippingAddressesOnCustomers" ADD CONSTRAINT "ShippingAddressesOnCustomers_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "Customer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "ShippingAddressesOnCustomers" ADD CONSTRAINT "ShippingAddressesOnCustomers_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "Customer"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "ShippingAddressesOnCustomers" ADD CONSTRAINT "ShippingAddressesOnCustomers_shippingAddressId_fkey" FOREIGN KEY ("shippingAddressId") REFERENCES "ShippingAddress"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "ShippingAddressesOnCustomers" ADD CONSTRAINT "ShippingAddressesOnCustomers_shippingAddressId_fkey" FOREIGN KEY ("shippingAddressId") REFERENCES "ShippingAddress"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Order" ADD CONSTRAINT "Order_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "Customer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

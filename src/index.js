@@ -1,7 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 
-const { DATABASE_URL, PORT } = process.env;
+const { CustomerController, ProductController } = require('./controllers');
+
+const { PORT } = process.env;
 const corsOptions = {
   origin: true,
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
@@ -12,7 +14,16 @@ const router = express.Router();
 
 app.use(cors(corsOptions)).use(express.json());
 
-router.get('/', (request, response) => response.json({ ok: true }));
+router
+  .get('/customers/:id', CustomerController.getCustomer)
+  .post('/customers/create', CustomerController.createCustomer)
+  .put('/customers/update', CustomerController.updateCustomer)
+  .delete('/customers/:id', CustomerController.deleteCustomer)
+
+  .get('/products/:id', ProductController.getProduct)
+  .post('/products/create', ProductController.createProduct)
+  .put('/products/update', ProductController.updateProduct)
+  .delete('/products/:id', ProductController.deleteProduct);
 
 app.use('/', router);
 

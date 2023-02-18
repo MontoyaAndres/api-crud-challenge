@@ -8,17 +8,6 @@ datasource db {
   shadowDatabaseUrl = env("DATABASE_URL")
 }
 
-enum ShippingAddressStatus {
-  PRIMARY
-}
-
-enum PaymentType {
-  CASH
-  CREDIT_CARD
-  CHECK
-  ORDER
-}
-
 model Customer {
   id                Int                            @id @default(autoincrement())
   name              String
@@ -27,16 +16,16 @@ model Customer {
   createdAt         DateTime                       @default(now())
   updatedAt         DateTime                       @default(now())
   deletedAt         DateTime?
-  shippingAddresses ShippingAddressesOnCustomers[]
   orders            Order[]
+  shippingAddresses ShippingAddressesOnCustomers[]
 }
 
 model ShippingAddressesOnCustomers {
-  customer          Customer               @relation(fields: [customerId], references: [id])
   customerId        Int
-  shippingAddress   ShippingAddress        @relation(fields: [shippingAddressId], references: [id])
   shippingAddressId Int
   status            ShippingAddressStatus?
+  customer          Customer               @relation(fields: [customerId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  shippingAddress   ShippingAddress        @relation(fields: [shippingAddressId], references: [id], onUpdate: Cascade, onDelete: Cascade)
 
   @@id([customerId, shippingAddressId])
 }
@@ -64,19 +53,19 @@ model Order {
   createdAt         DateTime           @default(now())
   updatedAt         DateTime           @default(now())
   deletedAt         DateTime?
-  customer          Customer           @relation(fields: [customerId], references: [id])
   customerId        Int
-  shippingAddress   ShippingAddress    @relation(fields: [shippingAddressId], references: [id])
   shippingAddressId Int
+  customer          Customer           @relation(fields: [customerId], references: [id])
+  shippingAddress   ShippingAddress    @relation(fields: [shippingAddressId], references: [id])
   products          ProductsOnOrders[]
 }
 
 model ProductsOnOrders {
-  order     Order   @relation(fields: [orderId], references: [id])
   orderId   Int
-  product   Product @relation(fields: [productId], references: [id])
   productId Int
   quantity  Int
+  order     Order   @relation(fields: [orderId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
 
   @@id([orderId, productId])
 }
@@ -92,4 +81,15 @@ model Product {
   updatedAt   DateTime           @default(now())
   deletedAt   DateTime?
   orders      ProductsOnOrders[]
+}
+
+enum ShippingAddressStatus {
+  PRIMARY
+}
+
+enum PaymentType {
+  CASH
+  CREDIT_CARD
+  CHECK
+  ORDER
 }
