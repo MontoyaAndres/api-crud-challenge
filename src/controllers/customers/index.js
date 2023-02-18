@@ -4,7 +4,33 @@ const getCustomer = async (request, response) => {
   try {
     const id = Number(request.params?.id);
 
-    if (!id) throw new Error('ID not valid');
+    if (!id) {
+      const { value } = request.query;
+
+      const searchResponse = await prisma.customer.findMany({
+        where: {
+          OR: [
+            {
+              name: {
+                search: value
+              }
+            },
+            {
+              phone: {
+                search: value
+              }
+            },
+            {
+              email: {
+                search: value
+              }
+            }
+          ]
+        }
+      });
+
+      return response.json(searchResponse);
+    }
 
     const getResponse = await prisma.customer.findUnique({
       where: { id },
@@ -160,6 +186,17 @@ const deleteCustomer = async (request, response) => {
     const id = Number(request.params?.id);
 
     if (!id) throw new Error('ID not valid');
+
+    const customer = await prisma.customer.findFirst({
+      where: {
+        id
+      },
+      include: {
+        orders: true
+      }
+    });
+
+    if (customer?.orders?.length > 0) throw new Error('Customer has orders');
 
     const addressesFromCustomer =
       await prisma.shippingAddressesOnCustomers.findMany({

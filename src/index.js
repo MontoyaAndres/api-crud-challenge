@@ -19,17 +19,17 @@ const router = express.Router();
 app.use(cors(corsOptions)).use(express.json());
 
 router
-  .get('/customers/:id', CustomerController.getCustomer)
+  .get('/customers/:id?', CustomerController.getCustomer)
   .post('/customers/create', CustomerController.createCustomer)
   .put('/customers/update', CustomerController.updateCustomer)
   .delete('/customers/:id', CustomerController.deleteCustomer)
 
-  .get('/products/:id', ProductController.getProduct)
+  .get('/products/:id?', ProductController.getProduct)
   .post('/products/create', ProductController.createProduct)
   .put('/products/update', ProductController.updateProduct)
   .delete('/products/:id', ProductController.deleteProduct)
 
-  .get('/orders/:id', OrderController.getOrder)
+  .get('/orders/:id?', OrderController.getOrder)
   .post('/orders/create', OrderController.createOrder)
   .delete('/orders/:id', OrderController.deleteOrder);
 

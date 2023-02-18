@@ -3,25 +3,73 @@ const { prisma } = require('../../prisma');
 const getOrder = async (request, response) => {
   try {
     const id = Number(request.params?.id);
+    let res;
 
-    if (!id) throw new Error('ID not valid');
+    if (!id) {
+      const { value } = request.query;
 
-    const getResponse = await prisma.order.findUnique({
-      where: { id },
-      include: {
-        customer: true,
-        shippingAddress: true,
-        products: {
-          include: {
-            product: true
+      res = await prisma.order.findMany({
+        where: {
+          OR: [
+            {
+              date: {
+                lte:
+                  new Date(value).toString() !== 'Invalid Date'
+                    ? new Date(value)
+                    : undefined
+              }
+            },
+            {
+              paymentType: {
+                equals:
+                  new Date(value).toString() === 'Invalid Date'
+                    ? value
+                    : undefined
+              }
+            }
+          ]
+        },
+        include: {
+          customer: true,
+          shippingAddress: true,
+          products: {
+            include: {
+              product: true
+            }
           }
         }
-      }
-    });
+      });
+    } else {
+      res = await prisma.order.findFirst({
+        where: {
+          OR: [{ id }, { idNumber: id }]
+        },
+        include: {
+          customer: true,
+          shippingAddress: true,
+          products: {
+            include: {
+              product: true
+            }
+          }
+        }
+      });
+    }
 
-    if (!getResponse) throw new Error('Order not found');
+    if (!res) throw new Error('Order not found');
 
-    response.json(getResponse);
+    if (!res?.total) {
+      const total = res.products
+        .map(values => values?.quantity * values?.product?.price || 0)
+        .reduce((a, b) => a + b, 0);
+
+      res = {
+        ...res,
+        total
+      };
+    }
+
+    response.json(res || {});
   } catch (error) {
     console.error(error);
     response.status(400).json({ error: error.message });

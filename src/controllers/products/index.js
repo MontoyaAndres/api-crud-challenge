@@ -4,7 +4,28 @@ const getProduct = async (request, response) => {
   try {
     const id = Number(request.params?.id);
 
-    if (!id) throw new Error('ID not valid');
+    if (!id) {
+      const { value } = request.query;
+
+      const searchResponse = await prisma.product.findMany({
+        where: {
+          OR: [
+            {
+              title: {
+                search: value
+              }
+            },
+            {
+              description: {
+                search: value
+              }
+            }
+          ]
+        }
+      });
+
+      return response.json(searchResponse);
+    }
 
     const getResponse = await prisma.product.findUnique({
       where: { id }
@@ -88,6 +109,14 @@ const deleteProduct = async (request, response) => {
     const id = Number(request.params?.id);
 
     if (!id) throw new Error('ID not valid');
+
+    const productHasOrders = await prisma.productsOnOrders.findFirst({
+      where: {
+        productId: id
+      }
+    });
+
+    if (productHasOrders) throw new Error('Product has orders');
 
     await prisma.product.delete({
       where: { id }
