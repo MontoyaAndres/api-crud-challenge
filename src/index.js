@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 
-const { DATABASE, USERNAME, HOST, PASSWORD, PORT } = process.env;
+const { DATABASE_URL, PORT } = process.env;
 const corsOptions = {
   origin: true,
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204

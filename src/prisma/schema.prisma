@@ -3,8 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("DATABASE_URL")
 }
 
 enum ShippingAddressStatus {
@@ -31,11 +32,11 @@ model Customer {
 }
 
 model ShippingAddressesOnCustomers {
-  customer          Customer              @relation(fields: [customerId], references: [id])
+  customer          Customer               @relation(fields: [customerId], references: [id])
   customerId        Int
-  shippingAddress   ShippingAddress       @relation(fields: [shippingAddressId], references: [id])
+  shippingAddress   ShippingAddress        @relation(fields: [shippingAddressId], references: [id])
   shippingAddressId Int
-  status            ShippingAddressStatus
+  status            ShippingAddressStatus?
 
   @@id([customerId, shippingAddressId])
 }
@@ -50,33 +51,24 @@ model ShippingAddress {
   createdAt DateTime                       @default(now())
   updatedAt DateTime                       @default(now())
   deletedAt DateTime?
+  orders    Order[]
   customers ShippingAddressesOnCustomers[]
-  orders    ShippingAddressesOnOrders[]
-}
-
-model ShippingAddressesOnOrders {
-  order             Order                 @relation(fields: [orderId], references: [id])
-  orderId           Int
-  shippingAddress   ShippingAddress       @relation(fields: [shippingAddressId], references: [id])
-  shippingAddressId Int
-  status            ShippingAddressStatus
-
-  @@id([orderId, shippingAddressId])
 }
 
 model Order {
-  id                Int                         @id @default(autoincrement())
-  idNumber          Int?                        @unique
+  id                Int                @id @default(autoincrement())
+  idNumber          Int?               @unique
   date              DateTime
   paymentType       PaymentType
   total             Int
-  createdAt         DateTime                    @default(now())
-  updatedAt         DateTime                    @default(now())
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @default(now())
   deletedAt         DateTime?
-  customer          Customer                    @relation(fields: [customerId], references: [id])
+  customer          Customer           @relation(fields: [customerId], references: [id])
   customerId        Int
+  shippingAddress   ShippingAddress    @relation(fields: [shippingAddressId], references: [id])
+  shippingAddressId Int
   products          ProductsOnOrders[]
-  shippingAddresses ShippingAddressesOnOrders[]
 }
 
 model ProductsOnOrders {
@@ -91,6 +83,7 @@ model ProductsOnOrders {
 
 model Product {
   id          Int                @id @default(autoincrement())
+  idNumber    Int?               @unique
   title       String
   description String
   price       Int
