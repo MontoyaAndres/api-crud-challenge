@@ -15,7 +15,7 @@ processes = []
 
 [experimental]
   auto_rollback = true
-  cmd = ["npm run dev"]
+  cmd = ["npm run start"]
 
 [deploy]
   release_command = "npm run migrate-prod"

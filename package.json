@@ -5,10 +5,11 @@
   "main": "index.js",
   "scripts": {
     "dev": "dotenv -e .env -- nodemon src/index.js",
+    "start": "npm run generate && nodemon src/index.js",
     "clean": "rm -rf node_modules",
     "generate": "prisma generate --schema src/prisma/schema.prisma",
     "migrate-dev": "npm run generate && prisma migrate dev --schema src/prisma/schema.prisma",
-    "migrate-prod": "prisma migrate deploy --schema src/prisma/schema.prisma",
+    "migrate-prod": "npm run generate && prisma migrate deploy --schema src/prisma/schema.prisma",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
