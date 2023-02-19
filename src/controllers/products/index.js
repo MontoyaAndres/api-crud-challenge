@@ -2,7 +2,7 @@ const { prisma } = require('../../prisma');
 
 const getProduct = async (request, response) => {
   try {
-    const id = Number(request.params?.id);
+    const id = Number(request.query?.id);
 
     if (!id) {
       const { value } = request.query;
@@ -12,12 +12,12 @@ const getProduct = async (request, response) => {
           OR: [
             {
               title: {
-                search: value
+                search: value.replace(/[\s\n\t]/g, ' & ')
               }
             },
             {
               description: {
-                search: value
+                search: value.replace(/[\s\n\t]/g, ' & ')
               }
             }
           ]
@@ -27,8 +27,10 @@ const getProduct = async (request, response) => {
       return response.json(searchResponse);
     }
 
-    const getResponse = await prisma.product.findUnique({
-      where: { id }
+    const getResponse = await prisma.product.findFirst({
+      where: {
+        OR: [{ id }, { idNumber: id }]
+      }
     });
 
     if (!getResponse) throw new Error('Product not found');
@@ -106,7 +108,7 @@ const updateProduct = async (request, response) => {
 
 const deleteProduct = async (request, response) => {
   try {
-    const id = Number(request.params?.id);
+    const id = Number(request.query?.id);
 
     if (!id) throw new Error('ID not valid');
 

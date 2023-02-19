@@ -2,7 +2,7 @@ const { prisma } = require('../../prisma');
 
 const getOrder = async (request, response) => {
   try {
-    const id = Number(request.params?.id);
+    const id = Number(request.query?.id);
     let res;
 
     if (!id) {
@@ -58,7 +58,7 @@ const getOrder = async (request, response) => {
 
     if (!res) throw new Error('Order not found');
 
-    if (!res?.total) {
+    if (!res?.total && res?.products) {
       const total = res.products
         .map(values => values?.quantity * values?.product?.price || 0)
         .reduce((a, b) => a + b, 0);
@@ -67,6 +67,17 @@ const getOrder = async (request, response) => {
         ...res,
         total
       };
+    } else if (Array.isArray(res)) {
+      res = res.map(values => {
+        const total = values.products
+          .map(values => values?.quantity * values?.product?.price || 0)
+          .reduce((a, b) => a + b, 0);
+
+        return {
+          ...values,
+          total
+        };
+      });
     }
 
     response.json(res || {});
@@ -163,7 +174,7 @@ const createOrder = async (request, response) => {
 
 const deleteOrder = async (request, response) => {
   try {
-    const id = Number(request.params?.id);
+    const id = Number(request.query?.id);
 
     if (!id) throw new Error('ID not valid');
 

@@ -1,0 +1,705 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0",
+    "title": "api-crud-challenge",
+    "description": "This is the challenge for Parrolabs, hope you like it :)",
+    "contact": {}
+  },
+  "host": "localhost:8080",
+  "basePath": "/",
+  "securityDefinitions": {},
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/customers/create": {
+      "post": {
+        "description": "This is the way to create a new Customer, for this you have to add the basic values, which are \\`name\\`, \\`phone\\`, \\`email\\` and \\`shippingAddress\\`.\n\nFor \\`shippingAddress\\` you have to add these values:\n\n*   \\`status\\`: This one must be \\`PRIMARY\\` is you want to add it\n*   \\`city\\`: City of the address\n*   \\`country\\`: Country of the address\n*   \\`state\\`: State of the address\n*   \\`street\\`: Street of the address\n*   \\`zipCode\\`: zip code of the address",
+        "summary": "Create customer",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "Createcustomer",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/CreatecustomerRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/customers": {
+      "get": {
+        "description": "To get a Customer by ID, which is a number saved on the database, you just have to define the query \\`id\\`.\n\nTo get a Customer by Value, this search is going to be based on the \\`name\\`, \\`phone\\` and \\`email\\` of the customers, you just have to define the query \\`value\\`.",
+        "summary": "Get or search customer",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "Getorsearchcustomer",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "value",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "Search user by value"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "description": "Search user by id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete a customer by ID, you just need to pass the ID of the customer, if the customer has orders, the api won't allow you to delete it.",
+        "summary": "Delete customer",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "Deletecustomer",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": "Delete user by id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/customers/update": {
+      "put": {
+        "description": "Update user by ID and her fields such as \\`name\\`, \\`phone\\`, \\`email\\` and \\`shippingAddresses\\` which is an array, on this array you can add the \\`id\\` of the address you want to update or just add the fields without id to create a new address.",
+        "summary": "Update customer",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "Updatecustomer",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/UpdatecustomerRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/products/create": {
+      "post": {
+        "description": "Create a new product based on the fields \\`title\\`, \\`description\\`, \\`price\\`, \\`weight\\` and \\`idNumber\\`. This \\`idNumber\\` is a number and it is optional",
+        "summary": "Create product",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "Createproduct",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/CreateproductRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/products": {
+      "get": {
+        "description": "To get a Product by ID, which is a number saved on the database, you just have to define the query \\`id\\`.\n\nTo get a Product by Value, this search is going to be based on the \\`title\\` and \\`description\\` of the products, you just have to define the query \\`value\\`.",
+        "summary": "Get or search product",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "Getorsearchproduct",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "description": "Search product by id"
+          },
+          {
+            "name": "value",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete a product by ID, you just need to pass the ID of the product, if the product has orders, the api won't allow you to delete it.",
+        "summary": "Delete product",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "Deleteproduct",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/products/update": {
+      "put": {
+        "description": "Update product based on the ID and its fields such as \\`title\\`, \\`description\\`, \\`price\\` and \\`weight\\`",
+        "summary": "Update product",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "Updateproduct",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/UpdateproductRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/orders/create": {
+      "post": {
+        "description": "Create a new order based on these fields:\n\n*   `customerId`: This is the ID of a customer\n*   `shippingAddressId`: This is the ID of a address from the customer\n*   `products`: This is a list of products with ids and quantities\n*   `date`: This is the date of the order\n*   `paymentType`: This is the payment type, this value MUST be any the words: \\`CASH\\`, \\`CREDIT_CARD\\`, \\`CHECK\\` or \\`OTHER\\`\n*   `idNumber`: This is an alternative value for `id`, It is optional",
+        "summary": "Create order",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "Createorder",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/CreateorderRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/orders": {
+      "get": {
+        "description": "To get an Order by ID, which is a number saved on the database, you just have to define the query \\`id\\`.\n\nTo get an Order by Value, this search is going to be based on the \\`date\\` and \\`paymentType\\` of the orders, you just have to define the query \\`value\\`\n\nFor the \\`paymentType\\` you have to define any of the values: \\`CASH\\`, \\`CREDIT_CARD\\`, \\`CHECK\\` or \\`OTHER\\`\n\nFor the \\`date\\` you have to define a date, taking in consideration that you will receive the orders that are lower or equal from that date",
+        "summary": "Get or search order",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "Getorsearchorder",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "value",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "Search order by value"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "description": "Search order by id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete an order by ID, you just need to pass the ID of the order",
+        "summary": "Delete order",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "Deleteorder",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "CreatecustomerRequest": {
+      "title": "CreatecustomerRequest",
+      "example": {
+        "name": "Andres Montoya",
+        "phone": "000",
+        "email": "andres@gmail.com",
+        "shippingAddress": {
+          "status": "PRIMARY",
+          "city": "bogota",
+          "country": "colombia",
+          "state": "bogota",
+          "street": "xxxxx",
+          "zipCode": "xxxxx"
+        }
+      },
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "shippingAddress": {
+          "type": "object",
+          "allOf": [
+            {
+              "$ref": "#/definitions/ShippingAddress"
+            },
+            {}
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "phone",
+        "email",
+        "shippingAddress"
+      ]
+    },
+    "ShippingAddress": {
+      "title": "ShippingAddress",
+      "example": {
+        "status": "PRIMARY",
+        "city": "bogota",
+        "country": "colombia",
+        "state": "bogota",
+        "street": "xxxxx",
+        "zipCode": "xxxxx"
+      },
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "street": {
+          "type": "string"
+        },
+        "zipCode": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "status",
+        "city",
+        "country",
+        "state",
+        "street",
+        "zipCode"
+      ]
+    },
+    "UpdatecustomerRequest": {
+      "title": "UpdatecustomerRequest",
+      "example": {
+        "id": 1,
+        "name": "Samuel Montoya",
+        "phone": "0001",
+        "email": "samuel@gmail.com",
+        "shippingAddresses": [
+          {
+            "id": 1,
+            "status": "PRIMARY",
+            "city": "medellin",
+            "country": "colombia",
+            "state": "antioquia",
+            "street": "xxxxx",
+            "zipCode": "xxxxx"
+          },
+          {
+            "city": "bogota",
+            "country": "colombia",
+            "state": "bogota",
+            "street": "xxxxx",
+            "zipCode": "xxxxx"
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "shippingAddresses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ShippingAddress1"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "phone",
+        "email",
+        "shippingAddresses"
+      ]
+    },
+    "ShippingAddress1": {
+      "title": "ShippingAddress1",
+      "example": {
+        "id": 1,
+        "status": "PRIMARY",
+        "city": "medellin",
+        "country": "colombia",
+        "state": "antioquia",
+        "street": "xxxxx",
+        "zipCode": "xxxxx"
+      },
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "status": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "street": {
+          "type": "string"
+        },
+        "zipCode": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "city",
+        "country",
+        "state",
+        "street",
+        "zipCode"
+      ]
+    },
+    "CreateproductRequest": {
+      "title": "CreateproductRequest",
+      "example": {
+        "title": "Cordoba Mini II Bass MH-E",
+        "description": "Cordoba Mini II Bass MH-E, caoba, cuerpo pequeño, guitarra acústica y eléctrica",
+        "price": 1000,
+        "weight": 60
+      },
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "price": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "weight": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "title",
+        "description",
+        "price",
+        "weight"
+      ]
+    },
+    "UpdateproductRequest": {
+      "title": "UpdateproductRequest",
+      "example": {
+        "id": 4,
+        "title": "Cordoba Mini II Bass MH-E",
+        "description": "Cordoba Mini II Bass MH-E, caoba, cuerpo pequeño, guitarra acústica y eléctrica",
+        "price": 2000,
+        "weight": 60
+      },
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "price": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "weight": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "description",
+        "price",
+        "weight"
+      ]
+    },
+    "CreateorderRequest": {
+      "title": "CreateorderRequest",
+      "example": {
+        "customerId": 1,
+        "shippingAddressId": 1,
+        "products": [
+          {
+            "id": 4,
+            "quantity": 2
+          },
+          {
+            "id": 1,
+            "quantity": 1
+          }
+        ],
+        "date": "2023-02-19",
+        "paymentType": "CREDIT_CARD"
+      },
+      "type": "object",
+      "properties": {
+        "customerId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "shippingAddressId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "products": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Product"
+          }
+        },
+        "date": {
+          "type": "string"
+        },
+        "paymentType": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "customerId",
+        "shippingAddressId",
+        "products",
+        "date",
+        "paymentType"
+      ]
+    },
+    "Product": {
+      "title": "Product",
+      "example": {
+        "id": 4,
+        "quantity": 2
+      },
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "id",
+        "quantity"
+      ]
+    }
+  },
+  "tags": [
+    {
+      "name": "Misc",
+      "description": ""
+    }
+  ]
+}

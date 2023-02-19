@@ -2,7 +2,7 @@ const { prisma } = require('../../prisma');
 
 const getCustomer = async (request, response) => {
   try {
-    const id = Number(request.params?.id);
+    const id = Number(request.query?.id);
 
     if (!id) {
       const { value } = request.query;
@@ -12,17 +12,17 @@ const getCustomer = async (request, response) => {
           OR: [
             {
               name: {
-                search: value
+                search: value.replace(/[\s\n\t]/g, ' & ')
               }
             },
             {
               phone: {
-                search: value
+                search: value.replace(/[\s\n\t]/g, ' & ')
               }
             },
             {
               email: {
-                search: value
+                search: value.replace(/[\s\n\t]/g, ' & ')
               }
             }
           ]
@@ -183,7 +183,7 @@ const updateCustomer = async (request, response) => {
 
 const deleteCustomer = async (request, response) => {
   try {
-    const id = Number(request.params?.id);
+    const id = Number(request.query?.id);
 
     if (!id) throw new Error('ID not valid');
 
