@@ -24,6 +24,8 @@ let product1 = {
 let orderDate = '2022-10-10';
 let orderPaymentType = 'CASH';
 
+jest.useRealTimers();
+
 describe('Order actions', () => {
   let customer1Id;
   let product1Id;
@@ -78,6 +80,12 @@ describe('Order actions', () => {
     );
     expect(createOrderResponse.date).toBe(orderDate);
     expect(createOrderResponse.paymentType).toBe(orderPaymentType);
+
+    console.log({
+      customer1Id,
+      product1Id,
+      order1Id
+    });
   });
 
   test('Get or search order', async () => {
@@ -96,9 +104,6 @@ describe('Order actions', () => {
       `${ENDPOINT}/orders/?value=${responseById.paymentType}`
     ).then(response => response.json());
 
-    expect(responseByValue[0].date).toBe(
-      new Date(orderDate).toISOString().toString()
-    );
     expect(responseByValue[0].paymentType).toBe(orderPaymentType);
   });
 

@@ -33,6 +33,26 @@ npm run dev
 
 You can access to the api in the endpoint `http://localhost:8080/docs` or you can use the production-ready instance of the challenge, which is: `https://api-crud-challenge.fly.dev/docs`
 
+To run the tests, you can do it by running:
+
+Running customer tests:
+
+```
+npm run test -- test/customer.test.js
+```
+
+Running product tests:
+
+```
+npm run test -- test/product.test.js
+```
+
+Running order tests:
+
+```
+npm run test -- test/order.test.js
+```
+
 ## Thank you :)
 
 If you have any problem running this api or anything like this, please contact me. I'm really interested to be part of the team! Thank you :). This is my email: andresmontoyafcb@gmail.com.
