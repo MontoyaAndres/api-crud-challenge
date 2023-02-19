@@ -143,7 +143,7 @@ const createOrder = async (request, response) => {
       productId: Number(product.id),
       quantity: Number(product.quantity)
     }));
-    await prisma.order.create({
+    const orderResponse = await prisma.order.create({
       data: {
         date: new Date(date),
         paymentType,
@@ -158,6 +158,7 @@ const createOrder = async (request, response) => {
     });
 
     response.json({
+      id: orderResponse.id,
       customerId,
       shippingAddressId,
       products,

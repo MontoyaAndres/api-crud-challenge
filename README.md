@@ -31,7 +31,7 @@ Then you can now run the api!
 npm run dev
 ```
 
-You can access to the api in the endpoing `http://localhost:8080/docs` or you can use the production-ready instance of the challenge, which is: `https://api-crud-challenge.fly.dev/docs`
+You can access to the api in the endpoint `http://localhost:8080/docs` or you can use the production-ready instance of the challenge, which is: `https://api-crud-challenge.fly.dev/docs`
 
 ## Thank you :)
 
