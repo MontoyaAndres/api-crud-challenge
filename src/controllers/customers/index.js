@@ -192,22 +192,16 @@ const deleteCustomer = async (request, response) => {
         id
       },
       include: {
-        orders: true
+        orders: true,
+        shippingAddresses: true
       }
     });
 
     if (customer?.orders?.length > 0) throw new Error('Customer has orders');
 
-    const addressesFromCustomer =
-      await prisma.shippingAddressesOnCustomers.findMany({
-        where: {
-          customerId: id
-        }
-      });
-
-    if (addressesFromCustomer?.length > 0) {
+    if (customer.shippingAddresses?.length > 0) {
       await Promise.all(
-        addressesFromCustomer.map(async values => {
+        customer.shippingAddresses.map(async values => {
           return await prisma.shippingAddress.delete({
             where: {
               id: values.shippingAddressId
@@ -223,7 +217,7 @@ const deleteCustomer = async (request, response) => {
       }
     });
 
-    return response.json({ id });
+    response.json({ id });
   } catch (error) {
     console.error(error);
     response.status(400).json({ error: error.message });

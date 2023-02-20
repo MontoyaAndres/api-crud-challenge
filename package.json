@@ -10,7 +10,7 @@
     "generate": "prisma generate --schema src/prisma/schema.prisma",
     "migrate-dev": "npm run generate && prisma migrate dev --schema src/prisma/schema.prisma",
     "migrate-prod": "npm run generate && prisma migrate deploy --schema src/prisma/schema.prisma",
-    "test": "node --experimental-vm-modules node_modules/.bin/jest"
+    "test": "node --experimental-vm-modules node_modules/.bin/jest --maxWorkers=4 --workerIdleMemoryLimit=1.5G"
   },
   "jest": {
     "collectCoverage": true
