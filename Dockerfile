@@ -23,7 +23,7 @@ ENV NODE_ENV production
 COPY . .
 
 RUN yarn install --production=false
-RUN yarn run migrate-dev
+RUN yarn run generate
 FROM debian:bullseye
 
 LABEL fly_launch_runtime="nodejs"

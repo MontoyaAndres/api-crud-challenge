@@ -11,6 +11,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Install prisma package
+        run: yarn add prisma@4.10.1
+
+      - name: Migrate database
+        run: yarn migrate-dev
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
       - name: Setup fly
         uses: superfly/flyctl-actions/setup-flyctl@master
 
@@ -18,4 +26,3 @@ jobs:
         run: flyctl deploy --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
