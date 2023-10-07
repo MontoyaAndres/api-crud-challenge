@@ -23,7 +23,6 @@ ENV NODE_ENV production
 COPY . .
 
 RUN yarn install --production=false
-RUN yarn run build
 RUN yarn run migrate-dev
 FROM debian:bullseye
 
