@@ -16,19 +16,19 @@ To get the variable `DATABASE_URL` please send me an email to andresmontoyafcb@g
 Then you have to install the depedencies:
 
 ```
-npm install
+yarn install
 ```
 
 Then generate the types of prisma to build the database:
 
 ```
-npm run generate
+yarn generate
 ```
 
 Then you can now run the api!
 
 ```
-npm run dev
+yarn dev
 ```
 
 You can access to the api in the endpoint `http://localhost:8080/docs` or you can use the production-ready instance of the challenge, which is: `https://api-crud-challenge.fly.dev/docs`
@@ -38,19 +38,19 @@ To run the tests, you can do it by running:
 Running customer tests:
 
 ```
-npm run test -- test/customer.test.js
+yarn test -- test/customer.test.js
 ```
 
 Running product tests:
 
 ```
-npm run test -- test/product.test.js
+yarn test -- test/product.test.js
 ```
 
 Running order tests:
 
 ```
-npm run test -- test/order.test.js
+yarn test -- test/order.test.js
 ```
 
 ## Thank you :)
